@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/">
+        <file>styles/app.qss</file>
+        <file>config/levels.json</file>
+
+        <file>assets/tiles/grass.png</file>
+        <file>assets/tiles/dark_soil.png</file>
+        <file>assets/tiles/stone.png</file>
+        <file>assets/tiles/ice.png</file>
+        <file>assets/tiles/path.png</file>
+        <file>assets/tiles/portal.png</file>
+
+        <file>assets/towers/shooter.png</file>
+        <file>assets/towers/slow.png</file>
+        <file>assets/towers/splash.png</file>
+        <file>assets/towers/laser.png</file>
+        <file>assets/towers/resource.png</file>
+        <file>assets/towers/wall.png</file>
+
+        <file>assets/enemies/normal.png</file>
+        <file>assets/enemies/fast.png</file>
+        <file>assets/enemies/heavy.png</file>
+        <file>assets/enemies/resistant.png</file>
+        <file>assets/enemies/split.png</file>
+        <file>assets/enemies/boss.png</file>
+        <file>assets/enemies/minion.png</file>
+
+        <file>assets/projectiles/bullet.png</file>
+        <file>assets/projectiles/slow.png</file>
+        <file>assets/projectiles/rocket.png</file>
+        <file>assets/projectiles/laser.png</file>
+        <file>assets/effects/burn.png</file>
+        <file>assets/effects/stun.png</file>
+    </qresource>
+</RCC>
+

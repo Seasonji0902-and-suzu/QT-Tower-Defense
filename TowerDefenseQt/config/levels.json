@@ -1,0 +1,80 @@
+{
+  "levels": [
+    {
+      "id": "meadow_gate",
+      "name": "第一关：草地防线",
+      "description": "熟悉建造、黑土地优惠与冰面加速。",
+      "rows": 6,
+      "columns": 10,
+      "initialResources": 360,
+      "terrain": [
+        "GGSGGDGGSG",
+        "GDGGSGDGGG",
+        "GGGGGGIGGG",
+        "GGDGGGGSGG",
+        "GSGDGGGSGG",
+        "GGGGSDGGGG"
+      ],
+      "path": [[0,2],[1,2],[2,2],[3,2],[3,3],[4,3],[5,3],[6,3],[6,2],[7,2],[8,2],[9,2]],
+      "portals": [],
+      "waves": [
+        {"spawnIntervalMs": 1050, "enemies": ["normal","normal","normal","normal","normal","normal"]},
+        {"spawnIntervalMs": 850, "enemies": ["normal","fast","fast","normal","fast","fast"]},
+        {"spawnIntervalMs": 1100, "enemies": ["heavy","normal","normal","heavy","fast"]},
+        {"spawnIntervalMs": 900, "enemies": ["resistant","split","fast","resistant","split","fast"]},
+        {"spawnIntervalMs": 950, "enemies": ["heavy","resistant","split","heavy","normal","boss"]}
+      ]
+    },
+    {
+      "id": "portal_pass",
+      "name": "第二关：传送峡谷",
+      "description": "敌人会从入口传送到远端，路线更短、资源更紧张。",
+      "rows": 6,
+      "columns": 10,
+      "initialResources": 310,
+      "terrain": [
+        "GGDGGSGGGG",
+        "GGIGGGDGGG",
+        "GDGIGGSGGG",
+        "GGGIGGGDGG",
+        "GGGPGGGPGG",
+        "GDSGGDGGSG"
+      ],
+      "path": [[0,1],[1,1],[2,1],[3,1],[3,2],[3,3],[3,4],[7,4],[8,4],[9,4]],
+      "portals": [[[3,4],[7,4]]],
+      "waves": [
+        {"spawnIntervalMs": 950, "enemies": ["normal","normal","fast","normal","fast","normal"]},
+        {"spawnIntervalMs": 760, "enemies": ["fast","fast","fast","resistant","fast","fast"]},
+        {"spawnIntervalMs": 1000, "enemies": ["heavy","heavy","normal","resistant","heavy"]},
+        {"spawnIntervalMs": 820, "enemies": ["split","split","resistant","fast","split","resistant"]},
+        {"spawnIntervalMs": 900, "enemies": ["heavy","resistant","split","fast","heavy","boss"]}
+      ]
+    },
+    {
+      "id": "frozen_core",
+      "name": "第三关：寒霜核心",
+      "description": "长路线与连续冰面并存，Boss 护盾恢复更具威胁。",
+      "rows": 6,
+      "columns": 10,
+      "initialResources": 280,
+      "terrain": [
+        "GSDGGDSGGG",
+        "GSGDDIIGGG",
+        "GGGGGGGGGG",
+        "GDGGSGGGGG",
+        "GGGGSGDGGG",
+        "GGGGGGSGDG"
+      ],
+      "path": [[0,5],[1,5],[2,5],[2,4],[2,3],[2,2],[3,2],[4,2],[5,2],[5,1],[6,1],[7,1],[7,2],[7,3],[8,3],[9,3]],
+      "portals": [],
+      "waves": [
+        {"spawnIntervalMs": 850, "enemies": ["normal","fast","normal","fast","normal","fast","normal"]},
+        {"spawnIntervalMs": 780, "enemies": ["resistant","fast","resistant","fast","heavy","fast"]},
+        {"spawnIntervalMs": 900, "enemies": ["heavy","split","heavy","split","resistant","normal"]},
+        {"spawnIntervalMs": 720, "enemies": ["fast","split","resistant","fast","split","heavy","resistant"]},
+        {"spawnIntervalMs": 820, "enemies": ["heavy","resistant","split","heavy","resistant","split","boss"]}
+      ]
+    }
+  ]
+}
+

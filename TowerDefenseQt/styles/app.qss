@@ -1,0 +1,93 @@
+QWidget {
+    color: #eaf7f4;
+    background: #102b33;
+    font-family: "Microsoft YaHei UI";
+}
+
+QLabel#titleLabel {
+    color: #f7d774;
+    font-size: 42px;
+    font-weight: 700;
+}
+
+QLabel#subtitleLabel {
+    color: #a9d6cf;
+    font-size: 16px;
+}
+
+QLabel#sectionTitle {
+    color: #f7d774;
+    font-size: 25px;
+    font-weight: 650;
+}
+
+QLabel#hudLabel {
+    color: #f5fbfa;
+    background: #183e47;
+    border: 1px solid #2c6670;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QLabel#messageLabel {
+    color: #ffe9a8;
+    background: #183e47;
+    border-radius: 6px;
+    padding: 7px;
+}
+
+QPushButton {
+    color: #f7fbfa;
+    background: #246c69;
+    border: 1px solid #48a39a;
+    border-radius: 8px;
+    padding: 9px 16px;
+    min-height: 26px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+QPushButton:hover {
+    background: #2f8580;
+    border-color: #78cdc1;
+}
+
+QPushButton:pressed {
+    background: #1a5553;
+}
+
+QPushButton:disabled {
+    color: #77908e;
+    background: #213f43;
+    border-color: #315157;
+}
+
+QPushButton[towerSelected="true"] {
+    color: #132a2e;
+    background: #f7d774;
+    border: 2px solid #fff0a9;
+}
+
+QPushButton#dangerButton {
+    background: #884b47;
+    border-color: #bb716a;
+}
+
+QPushButton#dangerButton:hover {
+    background: #a25b54;
+}
+
+QFrame#panel {
+    background: #173943;
+    border: 1px solid #2f5b64;
+    border-radius: 12px;
+}
+
+QGraphicsView {
+    background: #0b2228;
+    border: 2px solid #3c777b;
+    border-radius: 8px;
+}
+
