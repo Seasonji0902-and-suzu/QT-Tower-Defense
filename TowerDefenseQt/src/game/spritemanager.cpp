@@ -29,6 +29,11 @@ QPixmap SpriteManager::path(const QSize &size)
     return load(QStringLiteral(":/assets/tiles/path.png"), size);
 }
 
+QPixmap SpriteManager::pathMarker(const QSize &size)
+{
+    return load(QStringLiteral(":/assets/tiles/path_marker.png"), size);
+}
+
 QPixmap SpriteManager::tower(TowerType type, const QSize &size)
 {
     switch (type) {
@@ -71,7 +76,7 @@ QPixmap SpriteManager::effect(EffectType type, const QSize &size)
     switch (type) {
     case EffectType::Burn: return load(QStringLiteral(":/assets/effects/burn.png"), size);
     case EffectType::Stun: return load(QStringLiteral(":/assets/effects/stun.png"), size);
-    case EffectType::Slow: return load(QStringLiteral(":/assets/projectiles/slow.png"), size);
+    case EffectType::Slow: return load(QStringLiteral(":/assets/effects/slow_aura.png"), size);
     case EffectType::None: break;
     }
     return {};

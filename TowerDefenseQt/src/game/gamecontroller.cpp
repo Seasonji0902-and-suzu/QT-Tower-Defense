@@ -22,12 +22,25 @@ double distanceBetween(const QPointF &first, const QPointF &second)
 QSize enemySpriteSize(EnemyType type)
 {
     switch (type) {
-    case EnemyType::Boss: return {58, 58};
-    case EnemyType::Heavy: return {46, 46};
-    case EnemyType::Split: return {42, 42};
-    case EnemyType::Minion: return {26, 26};
-    default: return {36, 36};
+    case EnemyType::Boss: return {82, 82};
+    case EnemyType::Heavy: return {62, 62};
+    case EnemyType::Split: return {58, 58};
+    case EnemyType::Minion: return {34, 34};
+    default: return {50, 50};
     }
+}
+
+double enemyHealthBarWidth(EnemyType type)
+{
+    return std::max(36, enemySpriteSize(type).width());
+}
+
+double pathMarkerRotation(const QPoint &direction)
+{
+    if (qAbs(direction.x()) >= qAbs(direction.y())) {
+        return direction.x() >= 0 ? 90.0 : 270.0;
+    }
+    return direction.y() >= 0 ? 180.0 : 0.0;
 }
 
 } // namespace
@@ -338,6 +351,24 @@ void GameController::buildMap()
             item->setPos(column * kCellSize, row * kCellSize);
             item->setZValue(0.0);
             item->setToolTip(QStringLiteral("(%1, %2)").arg(column).arg(row));
+
+            if (isPathCell(cell)) {
+                QGraphicsPixmapItem *marker =
+                    m_scene->addPixmap(m_sprites.pathMarker({kCellSize, kCellSize}));
+                marker->setPos(column * kCellSize, row * kCellSize);
+                marker->setZValue(0.8);
+                marker->setOpacity(terrain == TerrainType::Portal ? 0.42 : 0.72);
+                marker->setTransformOriginPoint(kCellSize / 2.0, kCellSize / 2.0);
+
+                const int pathIndex = pathIndexOfCell(cell);
+                QPoint direction(0, -1);
+                if (pathIndex >= 0 && pathIndex + 1 < m_level->path.size()) {
+                    direction = m_level->path.at(pathIndex + 1) - cell;
+                } else if (pathIndex > 0) {
+                    direction = cell - m_level->path.at(pathIndex - 1);
+                }
+                marker->setRotation(pathMarkerRotation(direction));
+            }
         }
     }
 }
@@ -526,7 +557,7 @@ void GameController::createEnemyVisual(Enemy &enemy)
     enemy.visual().sprite->setPos(enemy.position());
     enemy.visual().sprite->setZValue(4.0);
 
-    const double width = enemy.type() == EnemyType::Boss ? 58.0 : 38.0;
+    const double width = enemyHealthBarWidth(enemy.type());
     enemy.visual().healthBackground = m_scene->addRect(0, 0, width, 5,
         Qt::NoPen, QBrush(QColor(QStringLiteral("#371e24"))));
     enemy.visual().healthFill = m_scene->addRect(0, 0, width, 5,
@@ -570,8 +601,9 @@ void GameController::updateEnemyVisual(Enemy &enemy)
     SpriteVisual &visual = enemy.visual();
     if (!visual.sprite) return;
     visual.sprite->setPos(enemy.position());
-    const double width = enemy.type() == EnemyType::Boss ? 58.0 : 38.0;
-    const double yOffset = enemy.type() == EnemyType::Boss ? 38.0 : 27.0;
+    const QSize spriteSize = enemySpriteSize(enemy.type());
+    const double width = enemyHealthBarWidth(enemy.type());
+    const double yOffset = spriteSize.height() / 2.0 + 9.0;
     const double healthRatio = enemy.maxHealth() > 0.0 ? enemy.health() / enemy.maxHealth() : 0.0;
     visual.healthBackground->setPos(enemy.position().x() - width / 2.0,
                                     enemy.position().y() - yOffset);
@@ -584,18 +616,42 @@ void GameController::updateEnemyVisual(Enemy &enemy)
     visual.shieldFill->setRect(0, 0, width * std::clamp(shieldRatio, 0.0, 1.0), 3);
     visual.shieldFill->setVisible(shieldRatio > 0.001);
 
-    EffectType visibleEffect = EffectType::None;
+    bool hasSlow = false;
+    bool hasBurn = false;
+    bool hasStun = false;
     for (const EffectInstance &effect : enemy.effects()) {
-        if (effect.type == EffectType::Burn || effect.type == EffectType::Stun) {
-            visibleEffect = effect.type;
-            break;
-        }
-        if (effect.type == EffectType::Slow) visibleEffect = effect.type;
+        hasSlow = hasSlow || effect.type == EffectType::Slow;
+        hasBurn = hasBurn || effect.type == EffectType::Burn;
+        hasStun = hasStun || effect.type == EffectType::Stun;
     }
+
+    if (hasSlow) {
+        const int auraSize = spriteSize.width() + 24;
+        const QPixmap aura = m_sprites.effect(EffectType::Slow, {auraSize, auraSize});
+        if (!visual.slowAura) {
+            visual.slowAura = m_scene->addPixmap(aura);
+            visual.slowAura->setZValue(3.5);
+            visual.slowAura->setOpacity(0.62);
+        } else {
+            visual.slowAura->setPixmap(aura);
+        }
+        visual.slowAura->setOffset(-aura.width() / 2.0, -aura.height() / 2.0);
+        visual.slowAura->setPos(enemy.position());
+        visual.slowAura->show();
+    } else if (visual.slowAura) {
+        visual.slowAura->hide();
+    }
+
+    const EffectType visibleEffect = hasStun ? EffectType::Stun
+        : hasBurn ? EffectType::Burn
+        : hasSlow ? EffectType::Slow
+                  : EffectType::None;
     if (visibleEffect == EffectType::None) {
         if (visual.effectIcon) visual.effectIcon->hide();
     } else {
-        const QPixmap icon = m_sprites.effect(visibleEffect, {18, 18});
+        const QSize iconSize = visibleEffect == EffectType::Slow ? QSize(30, 30)
+                                                                 : QSize(22, 22);
+        const QPixmap icon = m_sprites.effect(visibleEffect, iconSize);
         if (!visual.effectIcon) {
             visual.effectIcon = m_scene->addPixmap(icon);
             visual.effectIcon->setZValue(6.5);
@@ -603,8 +659,8 @@ void GameController::updateEnemyVisual(Enemy &enemy)
             visual.effectIcon->setPixmap(icon);
         }
         visual.effectIcon->setOffset(-icon.width() / 2.0, -icon.height() / 2.0);
-        visual.effectIcon->setPos(enemy.position().x() + width / 2.0,
-                                  enemy.position().y() - yOffset + 3.0);
+        visual.effectIcon->setPos(enemy.position().x() + width / 2.0 + 2.0,
+                                  enemy.position().y() - yOffset + 2.0);
         visual.effectIcon->show();
     }
 }
@@ -634,6 +690,7 @@ void GameController::removeVisual(SpriteVisual &visual)
     remove(visual.healthFill);
     remove(visual.shieldFill);
     remove(visual.effectIcon);
+    remove(visual.slowAura);
     visual = {};
 }
 

@@ -20,6 +20,7 @@ struct SpriteVisual {
     QGraphicsRectItem *healthFill = nullptr;
     QGraphicsRectItem *shieldFill = nullptr;
     QGraphicsPixmapItem *effectIcon = nullptr;
+    QGraphicsPixmapItem *slowAura = nullptr;
 };
 
 struct EffectInstance {

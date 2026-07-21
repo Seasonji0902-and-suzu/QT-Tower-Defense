@@ -8,6 +8,7 @@
         <file>assets/tiles/stone.png</file>
         <file>assets/tiles/ice.png</file>
         <file>assets/tiles/path.png</file>
+        <file>assets/tiles/path_marker.png</file>
         <file>assets/tiles/portal.png</file>
 
         <file>assets/towers/shooter.png</file>
@@ -30,7 +31,7 @@
         <file>assets/projectiles/rocket.png</file>
         <file>assets/projectiles/laser.png</file>
         <file>assets/effects/burn.png</file>
+        <file>assets/effects/slow_aura.png</file>
         <file>assets/effects/stun.png</file>
     </qresource>
 </RCC>
-
