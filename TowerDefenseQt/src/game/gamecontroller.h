@@ -27,6 +27,7 @@ public:
     QString levelProgressText(int index) const;
 
     void startLevel(int index);
+    void startTestLevel(const LevelConfig &level);
     void restartLevel();
     void stopGame();
     void togglePause();
@@ -38,6 +39,7 @@ public:
     void applyCheatCode(const QString &code);
 
     int currentLevelIndex() const { return m_currentLevelIndex; }
+    bool isTestLevel() const { return m_isTestLevel; }
     int cellSize() const { return kCellSize; }
     GameState state() const { return m_state; }
     TowerType selectedTowerType() const { return m_selectedTowerType; }
@@ -68,6 +70,7 @@ private:
     static constexpr int kCellSize = 64;
 
     void clearSceneAndObjects();
+    void beginLevel(const LevelConfig *level, int levelIndex, bool testLevel);
     void buildMap();
     void updateGame(double deltaSeconds);
     void updateWave(double deltaSeconds);
@@ -111,8 +114,10 @@ private:
     QGraphicsScene *m_scene = nullptr;
     SpriteManager m_sprites;
     QVector<LevelConfig> m_levels;
+    LevelConfig m_testLevel;
     const LevelConfig *m_level = nullptr;
     int m_currentLevelIndex = -1;
+    bool m_isTestLevel = false;
     QSet<int> m_pathCells;
 
     std::vector<std::unique_ptr<Tower>> m_towers;

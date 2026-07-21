@@ -1,0 +1,103 @@
+{
+    "levels": [
+        {
+            "columns": 10,
+            "description": "由简单关卡编辑器创建，不影响正式三关。界面坐标为（列, 行）。",
+            "id": "editor_test",
+            "initialResources": 500,
+            "name": "编辑器测试关卡",
+            "path": [
+                [
+                    0,
+                    2
+                ],
+                [
+                    1,
+                    2
+                ],
+                [
+                    2,
+                    2
+                ],
+                [
+                    2,
+                    4
+                ],
+                [
+                    3,
+                    4
+                ],
+                [
+                    4,
+                    4
+                ]
+            ],
+            "portals": [
+                [
+                    [
+                        2,
+                        2
+                    ],
+                    [
+                        2,
+                        4
+                    ]
+                ]
+            ],
+            "rows": 6,
+            "terrain": [
+                "GGGGGGGGGG",
+                "GGGGGGGGGG",
+                "GGPGGGGGGG",
+                "GGGGGGGGGG",
+                "GGPGGGGGGG",
+                "GGGGGGGGGG"
+            ],
+            "waves": [
+                {
+                    "enemies": [
+                        "normal",
+                        "normal",
+                        "normal"
+                    ],
+                    "spawnIntervalMs": 1050
+                },
+                {
+                    "enemies": [
+                        "fast",
+                        "normal",
+                        "fast",
+                        "normal"
+                    ],
+                    "spawnIntervalMs": 850
+                },
+                {
+                    "enemies": [
+                        "heavy",
+                        "normal",
+                        "heavy"
+                    ],
+                    "spawnIntervalMs": 1100
+                },
+                {
+                    "enemies": [
+                        "resistant",
+                        "split",
+                        "fast",
+                        "resistant"
+                    ],
+                    "spawnIntervalMs": 900
+                },
+                {
+                    "enemies": [
+                        "heavy",
+                        "split",
+                        "resistant",
+                        "boss"
+                    ],
+                    "spawnIntervalMs": 950
+                }
+            ]
+        }
+    ]
+}

@@ -38,5 +38,11 @@ struct LevelConfig {
 class LevelConfigLoader {
 public:
     static QVector<LevelConfig> load(QString *errorMessage = nullptr);
+    static QVector<LevelConfig> loadFromFile(const QString &filePath,
+                                             QString *errorMessage = nullptr);
+    static bool saveToFile(const QString &filePath, const LevelConfig &level,
+                           QString *errorMessage = nullptr);
+    static bool validateEditorLevel(const LevelConfig &level,
+                                    QString *errorMessage = nullptr);
+    static LevelConfig createEditorTemplate();
 };
-

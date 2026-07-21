@@ -90,9 +90,23 @@ void GameController::startLevel(int index)
 {
     if (index < 0 || index >= m_levels.size()) return;
 
+    beginLevel(&m_levels[index], index, false);
+}
+
+void GameController::startTestLevel(const LevelConfig &level)
+{
+    m_testLevel = level;
+    beginLevel(&m_testLevel, -1, true);
+}
+
+void GameController::beginLevel(const LevelConfig *level, int levelIndex, bool testLevel)
+{
+    if (!level) return;
+
     clearSceneAndObjects();
-    m_currentLevelIndex = index;
-    m_level = &m_levels[index];
+    m_currentLevelIndex = levelIndex;
+    m_isTestLevel = testLevel;
+    m_level = level;
     m_resources = m_level->initialResources;
     m_score = 0;
     m_nextEnemyId = 1;
@@ -118,7 +132,11 @@ void GameController::startLevel(int index)
 
 void GameController::restartLevel()
 {
-    if (m_currentLevelIndex >= 0) startLevel(m_currentLevelIndex);
+    if (m_isTestLevel) {
+        beginLevel(&m_testLevel, -1, true);
+    } else if (m_currentLevelIndex >= 0) {
+        startLevel(m_currentLevelIndex);
+    }
 }
 
 void GameController::stopGame()
@@ -126,6 +144,7 @@ void GameController::stopGame()
     clearSceneAndObjects();
     m_level = nullptr;
     m_currentLevelIndex = -1;
+    m_isTestLevel = false;
     setState(GameState::Idle);
 }
 
@@ -357,7 +376,7 @@ void GameController::buildMap()
                     m_scene->addPixmap(m_sprites.pathMarker({kCellSize, kCellSize}));
                 marker->setPos(column * kCellSize, row * kCellSize);
                 marker->setZValue(0.8);
-                marker->setOpacity(terrain == TerrainType::Portal ? 0.42 : 0.72);
+                marker->setOpacity(terrain == TerrainType::Portal ? 0.28 : 0.48);
                 marker->setTransformOriginPoint(kCellSize / 2.0, kCellSize / 2.0);
 
                 const int pathIndex = pathIndexOfCell(cell);
@@ -921,7 +940,7 @@ void GameController::finishGame(bool won)
     if (m_state == GameState::Won || m_state == GameState::Lost) return;
     if (won) m_score += m_resources * 2 + qMax(0, 1200 - qRound(m_elapsedGameSeconds) * 4);
     setState(won ? GameState::Won : GameState::Lost);
-    saveResult(won);
+    if (!m_isTestLevel) saveResult(won);
     const QString summary = QStringLiteral("关卡：%1\n用时：%2 秒\n消灭敌人：%3\n最终资源：%4\n得分：%5")
         .arg(m_level ? m_level->name : QString())
         .arg(m_elapsedGameSeconds, 0, 'f', 1)
